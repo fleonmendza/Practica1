@@ -1,7 +1,8 @@
-package com.eflm.practica1
+package com.eflm.practica1.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.eflm.practica1.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
