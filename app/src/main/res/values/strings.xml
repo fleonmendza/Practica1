@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Practica1</string>
+    <string name="lista_de_platillos">Lista de platillos</string>
+    <string name="nombre">Nombre</string>
+    <string name="descripcion">Descripcion</string>
+    <string name="tiempo_de_preparacion">Tiempo de preparacion</string>
 </resources>

@@ -8,16 +8,16 @@ import com.eflm.practica1.util.Constants
 @Entity(tableName = Constants.DATABASE_DISH_TABLE)
 data class PlatilloEntity(
     @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "game_id")
+    @ColumnInfo(name = "dish_id")
     val id: Long = 0,
     @ColumnInfo(name = "dish_name")
-    val name: String,
-    @ColumnInfo(name = "dish_img")
-    val img: String,
+    var name: String,
+    /*@ColumnInfo(name = "dish_img")
+    val img: String,*/
     @ColumnInfo(name = "dish_category")
-    val category: String,
+    var category: String,
     @ColumnInfo(name = "dish_description")
-    val description: String,
+    var description: String,
     @ColumnInfo(name = "dish_preparation_time")
-    val preparationTime: Int
+    var preparationTime: Int
 )

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="aliment_types">
+        <item>Selecciona el tipo de alimento</item>
+        <item>Entrada</item>
+        <item>Plato Fuerte</item>
+        <item>Postre</item>
+    </string-array>
+
+</resources>
