@@ -71,7 +71,7 @@ private val message: (String) -> Unit
         }
 
         dialog = if (newDish) {
-            buildDialog("Guardar", "Cancelar", {
+            buildDialog(getString(R.string.guardar), getString(R.string.cancelar), {
                 //Create (Guardar)
                 dish.name = binding.name.text.toString()
                 dish.category = binding.spinner.selectedItem.toString()
@@ -83,20 +83,20 @@ private val message: (String) -> Unit
                         repository.insertDish(dish.name, dish.category, dish.description)
                     }
 
-                    message("Guardado")
+                    message(getString(R.string.guardado))
 
                     //Actualizar la UI
                     updateUI()
 
                 }catch(e: IOException){
                     e.printStackTrace()
-                    message("Error al guardar el platillo")
+                    message(getString(R.string.error_al_guardar_el_platillo))
                 }
             }, {
                 //Cancelar
             })
         } else {
-            buildDialog("Actualizar", "Borrar", {
+            buildDialog(getString(R.string.actualizar), getString(R.string.borrar), {
                 //Update
                 dish.name = binding.name.text.toString()
                 dish.category = binding.spinner.selectedItem.toString()
@@ -108,39 +108,39 @@ private val message: (String) -> Unit
                         repository.updateDish(dish)
                     }
 
-                    message("Platillo actualizado exitosamente")
+                    message(getString(R.string.platillo_actualizado_exitosamente))
 
                     //Actualizar la UI
                     updateUI()
 
                 }catch(e: IOException){
                     e.printStackTrace()
-                    message("Error al actualizar el Platillo")
+                    message(getString(R.string.error_al_actualizar_el_platillo))
                 }
 
             }, {
                 //Delete
 
                 AlertDialog.Builder(requireContext())
-                    .setTitle("Confirmación")
-                    .setMessage("¿Realmente deseas eliminar el Platillo ${dish.name}?")
-                    .setPositiveButton("Aceptar"){ _,_ ->
+                    .setTitle(getString(R.string.confirmaci_n))
+                    .setMessage(getString(R.string.realmente_deseas_eliminar_el_platillo, dish.name))
+                    .setPositiveButton(getString(R.string.aceptar)){ _, _ ->
                         try {
                             lifecycleScope.launch {
                                 repository.deleteDish(dish)
                             }
 
-                            message("Platillo eliminado exitosamente")
+                            message(getString(R.string.platillo_eliminado_exitosamente))
 
                             //Actualizar la UI
                             updateUI()
 
                         }catch(e: IOException){
                             e.printStackTrace()
-                            message("Error al eliminar el Platillo")
+                            message(getString(R.string.error_al_eliminar_el_platillo))
                         }
                     }
-                    .setNegativeButton("Cancelar"){ dialog, _ ->
+                    .setNegativeButton(getString(R.string.cancelar)){ dialog, _ ->
                         dialog.dismiss()
                     }
                     .create()
@@ -180,7 +180,7 @@ private val message: (String) -> Unit
         binding.spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 // Verificar si la selección no es "Selecciona el tipo de alimento"
-                if (binding.spinner.selectedItem.toString() != "Selecciona el tipo de alimento") {
+                if (binding.spinner.selectedItem.toString() != getString(R.string.selecciona_el_tipo_de_alimento)) {
                     // Habilitar el botón cuando se selecciona un tipo válido
                     saveButton?.isEnabled = validateFields()
                 } else {
@@ -229,7 +229,7 @@ private val message: (String) -> Unit
 
     private fun validateFields() =
         (binding.name.text.toString().isNotEmpty() && binding.description.text.toString()
-            .isNotEmpty() && binding.spinner.selectedItem.toString() != "Selecciona el tipo de alimento")
+            .isNotEmpty() && binding.spinner.selectedItem.toString() != getString(R.string.selecciona_el_tipo_de_alimento))
 
     private fun buildDialog(
         btn1Text: String,
@@ -238,7 +238,7 @@ private val message: (String) -> Unit
         negativeButton: () -> Unit
     ): Dialog =
         builder.setView(binding.root)
-            .setTitle("Platillo")
+            .setTitle(getString(R.string.platillo))
             .setPositiveButton(btn1Text, DialogInterface.OnClickListener { dialog, which ->
                 positiveButton()
             })

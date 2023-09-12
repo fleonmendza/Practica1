@@ -4,4 +4,19 @@
     <string name="nombre">Nombre</string>
     <string name="descripcion">Descripcion</string>
     <string name="tiempo_de_preparacion">Tiempo de preparacion</string>
+    <string name="guardado">Guardado</string>
+    <string name="error_al_guardar_el_platillo">Error al guardar el platillo</string>
+    <string name="actualizar">Actualizar</string>
+    <string name="borrar">Borrar</string>
+    <string name="platillo_actualizado_exitosamente">Platillo actualizado exitosamente</string>
+    <string name="error_al_actualizar_el_platillo">Error al actualizar el Platillo</string>
+    <string name="confirmaci_n">Confirmación</string>
+    <string name="realmente_deseas_eliminar_el_platillo">¿Realmente deseas eliminar el Platillo %1$s?</string>
+    <string name="aceptar">Aceptar</string>
+    <string name="platillo_eliminado_exitosamente">Platillo eliminado exitosamente</string>
+    <string name="error_al_eliminar_el_platillo">Error al eliminar el Platillo</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="guardar">Guardar</string>
+    <string name="selecciona_el_tipo_de_alimento">Selecciona el tipo de alimento</string>
+    <string name="platillo">Platillo</string>
 </resources>
