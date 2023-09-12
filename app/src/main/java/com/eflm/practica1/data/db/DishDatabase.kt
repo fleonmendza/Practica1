@@ -10,7 +10,7 @@ import com.eflm.practica1.util.Constants
 
 @Database(
     entities = [PlatilloEntity::class],
-    version = 1,  //versión de la BD. Importante para las migraciones
+    version = 2,  //versión de la BD. Importante para las migraciones
     exportSchema = true //por defecto es true
 )
 abstract class DishDatabase: RoomDatabase() {

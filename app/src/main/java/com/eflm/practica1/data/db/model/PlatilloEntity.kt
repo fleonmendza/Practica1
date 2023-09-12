@@ -18,6 +18,6 @@ data class PlatilloEntity(
     var category: String,
     @ColumnInfo(name = "dish_description")
     var description: String,
-    @ColumnInfo(name = "dish_preparation_time")
-    var preparationTime: Int
+/*    @ColumnInfo(name = "dish_preparation_time")
+    var preparationTime: Int? = null*/
 )

@@ -25,9 +25,9 @@ class DishAdapter(private val onGameClick: (PlatilloEntity) -> Unit): RecyclerVi
                 binding.ivIcon.setImageResource(R.drawable.postres)
             }
             binding.apply {
-                tvTitle.text = dish.name
-                tvGenre.text = dish.category
-                tvDeveloper.text = dish.description
+                tvname.text = dish.name
+                tvcategory.text = dish.category
+                tvtime.text = dish.description
 
                 }
             }

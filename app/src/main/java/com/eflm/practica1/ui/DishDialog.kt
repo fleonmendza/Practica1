@@ -6,9 +6,13 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Button
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.lifecycleScope
+import com.eflm.practica1.R
 import com.eflm.practica1.application.PlatillosDBApp
 import com.eflm.practica1.data.DishRepository
 import com.eflm.practica1.data.db.model.PlatilloEntity
@@ -21,8 +25,7 @@ private val newDish: Boolean = true,
 private var dish: PlatilloEntity = PlatilloEntity(
     name = "",
     category = "",
-    description = "",
-    preparationTime = 0
+    description = ""
 
 ),
 private val updateUI: () -> Unit,
@@ -47,23 +50,37 @@ private val message: (String) -> Unit
 
         builder = AlertDialog.Builder(requireContext())
 
+        val dishCategory = dish.category
+        val spinnerOptions = resources.getStringArray(R.array.aliment_types)
+        var found = 2
+
+        for (i in 0 until spinnerOptions.size) {
+            val option = spinnerOptions[i]
+            if (option == dishCategory) {
+                found = i
+                break
+            }
+        }
+        binding.spinner.setSelection(found)
+
+
         binding.apply {
-            tietTitle.setText(dish.name)
-            tietGenre.setText(dish.category)
-            tietDeveloper.setText(dish.description)
+            name.setText(dish.name)
+
+            description.setText(dish.description)
         }
 
         dialog = if (newDish) {
             buildDialog("Guardar", "Cancelar", {
                 //Create (Guardar)
-                dish.name = binding.tietTitle.text.toString()
+                dish.name = binding.name.text.toString()
                 dish.category = binding.spinner.selectedItem.toString()
-                dish.description = binding.tietDeveloper.text.toString()
-                dish.preparationTime = 8
+                dish.description = binding.description.text.toString()
+
 
                 try {
                     lifecycleScope.launch {
-                        repository.insertDish(dish.name, dish.category, dish.description, dish.preparationTime)
+                        repository.insertDish(dish.name, dish.category, dish.description)
                     }
 
                     message("Guardado")
@@ -81,9 +98,10 @@ private val message: (String) -> Unit
         } else {
             buildDialog("Actualizar", "Borrar", {
                 //Update
-                dish.name = binding.tietTitle.text.toString()
-                dish.category = binding.tietGenre.text.toString()
-                dish.description = binding.tietDeveloper.text.toString()
+                dish.name = binding.name.text.toString()
+                dish.category = binding.spinner.selectedItem.toString()
+                dish.description = binding.description.text.toString()
+
 
                 try {
                     lifecycleScope.launch {
@@ -149,7 +167,35 @@ private val message: (String) -> Unit
         saveButton = alertDialog.getButton(android.app.AlertDialog.BUTTON_POSITIVE)
         saveButton?.isEnabled = false
 
-        binding.tietTitle.addTextChangedListener(object : TextWatcher {
+        // Obtener la lista de opciones del recurso XML
+        val spinnerOptions = resources.getStringArray(R.array.aliment_types)
+
+        // Configurar el adaptador del Spinner
+        val spinnerAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, spinnerOptions)
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+
+        // Asignar el adaptador al Spinner
+        binding.spinner.adapter = spinnerAdapter
+
+        binding.spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                // Verificar si la selección no es "Selecciona el tipo de alimento"
+                if (binding.spinner.selectedItem.toString() != "Selecciona el tipo de alimento") {
+                    // Habilitar el botón cuando se selecciona un tipo válido
+                    saveButton?.isEnabled = validateFields()
+                } else {
+                    // Deshabilitar el botón cuando se selecciona "Selecciona el tipo de alimento"
+                    saveButton?.isEnabled = false
+                }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                // Manejar el caso en el que no se ha seleccionado nada
+                saveButton?.isEnabled = false
+            }
+        }
+
+        binding.name.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
 
             }
@@ -163,7 +209,7 @@ private val message: (String) -> Unit
             }
         })
 
-        binding.tietGenre.addTextChangedListener(object : TextWatcher {
+        binding.description.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
 
             }
@@ -178,26 +224,12 @@ private val message: (String) -> Unit
 
         })
 
-        binding.tietDeveloper.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-                saveButton?.isEnabled = validateFields()
-            }
-
-        })
 
     }
 
     private fun validateFields() =
-        (binding.tietTitle.text.toString().isNotEmpty() && binding.tietGenre.text.toString()
-            .isNotEmpty() && binding.tietDeveloper.text.toString().isNotEmpty())
+        (binding.name.text.toString().isNotEmpty() && binding.description.text.toString()
+            .isNotEmpty() && binding.spinner.selectedItem.toString() != "Selecciona el tipo de alimento")
 
     private fun buildDialog(
         btn1Text: String,

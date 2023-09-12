@@ -9,8 +9,8 @@ class DishRepository(private val dishDao: DishDao) {
         dishDao.insertDish(dish)
     }
 
-    suspend fun insertDish(name: String, category: String, description: String, time: Int){
-        dishDao.insertDish(PlatilloEntity(name = name, category = category, description = description, preparationTime = time ))
+    suspend fun insertDish(name: String, category: String, description: String){
+        dishDao.insertDish(PlatilloEntity(name = name, category = category, description = description))
     }
 
     suspend fun getAllDishes(): List<PlatilloEntity> = dishDao.getAllDishes()
